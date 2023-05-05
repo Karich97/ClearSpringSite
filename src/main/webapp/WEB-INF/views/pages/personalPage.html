@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PersonalPage</title>
+</head>
+<body>
+User: <h1 th:text="${user.getName()}"></h1>
+Age: <h2 th:text="${user.getAge()}"></h2>
+
+Login: <h3 th:text="${user.getLogin()}"></h3>
+Password: <h3 th:text="${user.getPassword()}"></h3>
+PersonalId: <h3 th:text="${user.getId()}"></h3>
+<a href="/users"><h1>Show all users</h1></a>
+FRIENDS:
+<div th:each="friend : ${user.getFriends()}">
+    <a th:href="@{/users/{id}(id=${friend.getId()})}"><h1 th:text="${friend.getName()}"></h1></a>
+</div>
+</body>
+</html>

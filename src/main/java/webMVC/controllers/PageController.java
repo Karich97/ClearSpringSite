@@ -1,5 +1,6 @@
 package webMVC.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,15 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import webMVC.CRUD.DAO.UserDao;
 import webMVC.models.User;
 
-import javax.validation.Valid;
-
 @Controller
 @RequestMapping(value = "/personal_page")
 public class PageController {
     private final UserDao userDao;
 
     @Autowired
-    public PageController(@Qualifier("userDaoHibernate") UserDao userDao) {
+    public PageController(@Qualifier("usersService") UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -34,7 +33,7 @@ public class PageController {
     }
 
     @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("user")  @Valid User user, BindingResult bindingResult, @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) return "redirect:/personal_page/{id}/edit";
         userDao.updateInformation(id, user);
         return "redirect:/personal_page/" + id;

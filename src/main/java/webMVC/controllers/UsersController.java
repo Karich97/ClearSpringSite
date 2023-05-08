@@ -16,10 +16,9 @@ public class UsersController {
     private final UserDao userDao;
 
     @Autowired
-    public UsersController(@Qualifier("userDaoHibernate") UserDao userDao) {
+    public UsersController(@Qualifier("usersService") UserDao userDao) {
         this.userDao = userDao;
     }
-
     @GetMapping(value = "/{id}")
     public String getAllUsers(@PathVariable int id, ModelMap module, ModelMap user) {
         module.addAttribute("users", userDao.getAllUsers(id));

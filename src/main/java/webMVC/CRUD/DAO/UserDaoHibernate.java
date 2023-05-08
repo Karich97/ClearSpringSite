@@ -20,52 +20,51 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "hibernateTransactionManager")
     public List<User> getAllUsers(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select us from User us", User.class).getResultList();
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "hibernateTransactionManager")
     public User getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(User.class, id);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "hibernateTransactionManager")
     public void addNewUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(user);
+        session.persist(user);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, value = "hibernateTransactionManager")
     public int findUserByLoginAndPassword(String login, String password) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery("from User where login = :login and password = :password", User.class);
-        if (query == null) return 0;
         query.setParameter("login", login);
         query.setParameter("password", password);
+        if (query.list().isEmpty()) {
+            return 0;
+        }
         return query.uniqueResult().getId();
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "hibernateTransactionManager")
     public void addFriend(int userId, int friendId) {
         Session session = sessionFactory.getCurrentSession();
-        System.out.println(userId + " " + friendId);
         User user = session.get(User.class, userId);
         User friend = session.get(User.class, friendId);
         user.getFriends().add(friend);
-        System.out.println("added?");
-
-        // session.save(user);
+        friend.getFriends().add(user);
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "hibernateTransactionManager")
     public void updateInformation(int id, User user) {
         Session session = sessionFactory.getCurrentSession();
         User person = session.get(User.class, id);
@@ -76,19 +75,22 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "hibernateTransactionManager")
     public void delete(int id) {
-        System.out.println(id + " deleted");
         Session session = sessionFactory.getCurrentSession();
         session.remove(session.get(User.class, id));
     }
 
     @Override
-    @Transactional
+    @Transactional(value = "hibernateTransactionManager")
     public void deleteFriend(int userId, int friendId) {
         Session session = sessionFactory.getCurrentSession();
         User user = session.get(User.class, userId);
-        user.getFriends().remove(session.get(User.class, friendId));
-        session.update(user);
+        User friend = session.get(User.class, friendId);
+        user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
+        //session.update(user);
+        session.persist(user);
+        session.persist(friend);
     }
 }

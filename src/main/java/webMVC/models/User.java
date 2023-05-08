@@ -1,9 +1,11 @@
 package webMVC.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,8 +20,10 @@ public class User {
     String name;
     @Min(value = 1, message = "Age should be grater than 1")
     int age;
+    @NotEmpty(message = "name should not be empty")
     @Size(min = 3, message = "password should not be less than 3 characters")
     String password;
+    @NotEmpty(message = "name should not be empty")
     @Size(min = 2, message = "login should not be less than 3 characters")
     String login;
 
@@ -90,9 +94,10 @@ public class User {
     }
 
     public Set<User> getFriends() {
-        System.out.println("return friends");
-        System.out.println(friends.isEmpty());
-        if (friends.isEmpty()) System.out.println(0);
         return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 }

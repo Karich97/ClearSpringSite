@@ -1,5 +1,6 @@
 package webMVC.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,15 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import webMVC.CRUD.DAO.UserDao;
 import webMVC.models.User;
 
-import javax.validation.Valid;
-
 @Controller
 public class Hello {
     private final UserDao userDao;
     @Autowired
-    public Hello(@Qualifier("userDaoHibernate")UserDao userDao) {
+    public Hello(@Qualifier("usersService") UserDao userDao) {
         this.userDao = userDao;
     }
+    // userDaoHibernate
     @GetMapping(value = "/")
     public String helloPage(@ModelAttribute("user") User user){
         return "hello/hello";
@@ -32,9 +32,8 @@ public class Hello {
         return "hello/newUserPage";
     }
     @PostMapping(value = "/new")
-    public String create(@ModelAttribute("user")@Valid User user, BindingResult bindingResult){
+    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            System.out.println("smth wrong with new user");
             return "redirect:/new";
         }
         userDao.addNewUser(user);

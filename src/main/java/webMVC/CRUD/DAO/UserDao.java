@@ -14,11 +14,11 @@ public interface UserDao {
 
     int findUserByLoginAndPassword(String login, String password);
 
-    void addFriend(int user, int Friend);
+    void addFriend(int userId, int friendId);
 
     void updateInformation(int id, User user);
 
     void delete(int id);
 
-    void deleteFriend(int user, int friend);
+    void deleteFriend(int userId, int friendId);
 }

@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <title>New User</title>
 </head>
-<body>
+<body BGCOLOR="#9c9c9c">
 <h3 class="text-center">Fill in the form</h3>
 
 <form th:method="POST" th:action="@{/new}" th:object="${user}">
     <label for="name">NAME</label>
     <input type="text" th:field="*{name}" id="name">
-    <br>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+    <br/>
     <label for="age">AGE</label>
     <input type="number" th:field="*{age}" id="age">
-    <br>
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Name error</div>
+    <br/>
     <label for="login">LOGIN</label>
     <input type="text" th:field="*{login}" id="login">
-    <br>
+    <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Name error</div>
+    <br/>
     <label for="password">PASSWORD</label>
     <input type="text" th:field="*{password}" id="password">
-    <br>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name error</div>
+    <br/>
     <input type="submit" value="Add new User">
 </form>
 </body>

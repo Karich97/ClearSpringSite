@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import webMVC.models.User;
 import webMVC.services.UsersService;
+import webMVC.services.UsersServiceImpl;
 
 @Controller
 @RequestMapping(value = "/personal_page")

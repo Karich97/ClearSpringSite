@@ -1,6 +1,5 @@
 package webMVC.controllers;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import webMVC.models.User;
 import webMVC.services.UsersService;
+import webMVC.services.UsersServiceImpl;
 
 @Controller
 @RequestMapping(value = "/users")

@@ -15,6 +15,7 @@ public class MVCInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         return new Class<?>[]{
                 SpringConfig.class
         };

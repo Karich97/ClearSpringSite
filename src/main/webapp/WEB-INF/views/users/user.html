@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <title>User</title>
 </head>
-<body>
-<h1 th:text="${user.getName()}"/>
-<h1 th:text="${user.getAge()}"/>
-<h1 th:text="Add to friends"/>
-go to personal page
-<a th:href="@{/personal_page/{id}(id=${user.getId()})}"><h1 th:text="${user.getName()}"/></a>
+<body BGCOLOR="#9c9c9c">
+<CENTER><IMG SRC="avatar.png" ALIGN="BOTTOM"> </CENTER>
+<HR>
+<h1 align="up" th:text="User"></h1>
+<center><h1 th:text="${user.getName()}"></h1></center>
+<H2> User info:</H2>
+<label><b>Age: </b><h2 th:text="${user.getAge()}"></h2></label>
+<hr>
+<form th:method="POST" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+    <input type="submit" value="Chat">
+</form>
 </body>
 </html>

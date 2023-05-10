@@ -5,9 +5,13 @@
     <title>All Users</title>
   <h1>All Users:</h1>
 </head>
-<body>
-<div th:each="user : ${users}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}"><h1 th:text="${user.getName()}"/></a>
+<body BGCOLOR="#9c9c9c">
+<a th:href="@{/}">To the Main Page</a>
+<div th:each="potentialFriend : ${users}">
+    <a th:href="@{/users/user/{id}(id=${potentialFriend.getId()})}"><h1 th:text="${potentialFriend.getName()}"></h1></a>
+    <form th:method="PATCH" th:action="@{/users/addFriend/{id}/{friendId}(id=${user.getId()}, friendId=${potentialFriend.getId()})}" th:object="${user}">
+        <input type="submit" value="Add to friends">
+    </form>
 </div>
 </body>
 </html>

@@ -1,21 +1,21 @@
 package webMVC.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import webMVC.CRUD.DAO.UserDao;
-import webMVC.CRUD.DAO.UserDaoList;
 import webMVC.models.User;
+import webMVC.services.UsersService;
 
 @Controller
 public class Hello {
-    private final UserDao userDao;
-
+    private final UsersService usersService;
     @Autowired
-    public Hello(UserDaoList newUserDaoList) {
-        this.userDao = newUserDaoList;
+    public Hello(UsersService usersService) {
+        this.usersService = usersService;
     }
     @GetMapping(value = "/")
     public String helloPage(@ModelAttribute("user") User user){
@@ -30,16 +30,16 @@ public class Hello {
         return "hello/newUserPage";
     }
     @PostMapping(value = "/new")
-    public String create(@ModelAttribute("user") User user){
-        if (user.getAge() == 0 || user.getPassword().equals("") || user.getName().equals("") || user.getLogin().equals("")){
+    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
             return "redirect:/new";
         }
-        userDao.addNewUser(user);
+        usersService.addNewUser(user);
         return "redirect:/";
     }
     @PostMapping(value = "/")
     public String login(@ModelAttribute("user") User user){
-        int id = userDao.findUserByLoginAndPassword(user.getLogin(), user.getPassword());
+        int id = usersService.findUserByLoginAndPassword(user.getLogin(), user.getPassword());
         if (id == 0){
             return "redirect:/";
         }
